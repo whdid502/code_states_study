@@ -1,0 +1,76 @@
+문자열 다루기
+
+문자열에 하나하나 접근하기
+
+ex) var str = 'codestates'
+    str[0] // c
+    str[4] // s
+    str[10] // undefined
+
+문자열 하나에 접근할수는 있지만(index에 접근) 쓸수는 없음(read-only)
+
+에러는 나지않음, 문자열은 read-only
+
++ 연산자로 문자열을 연결가능
+
+ex) var str1 = 'code'
+    var str2 = 'states'
+    str1 + str2 = 'codestates'
+    str1 + 7 = 'code7'
+
+문자열과 다른 자료형을 합쳐도 문자열로 나옴
+
++ 대신 str1.concat(str2..)라는 내장함수도 잇다.
+
+전체길이를 반환
+
+ex) var str = 'codestates'
+    str.length(str) // 10
+
+str.indexOf(value)
+
+arguments : 찾고자 하는 문자열
+return value : 처음으로 일치하는 index, 찾고자 하는 문자열이 없으면 -1
+lastIndexOf는 문자열 뒤에서부터 찾음
+
+ex) 'curry'.indexOf('cu') // 0
+    'curry'.indexOf('Cu') // -1
+    'curry'.indexOf('rry') // 2
+    'curry rry'.indexOf('rry) // 2
+
+    'curry'.lastIndexOf('r') // 3
+
+str.includes(value)
+
+포함되어 있는가를 boolean으로 리턴
+
+str.split(speraotr)
+
+arguments : 분리 기준이 될 문자열
+return value : 분리된 문자열이 포함된 배열
+
+ex) var str = 'hello my mother'
+    str.split(' ') // ['hello', 'my', 'mother']
+
+csv 등의 파일을 다루는데 편함
+
+줄바꿈은 \n
+
+str.substring(start, end)
+
+arguments : 시작 index, 끝 index
+
+return value : 시작과 끝 사이의 문자열
+
+ex) var str = 'abc123'
+    str.substring(0,3) // abc
+    str.substring(-1,3) // abc , -1등 음수는 0으로 취급
+
+str.toLowerCase() / str.toUpperCase()
+
+소문자로, 대문자로 변환하는것
+
+immutable 은 원본이 변하지 않는다는 의미이다
+
+string method는 immutable이다.
+
