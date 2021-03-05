@@ -1,0 +1,77 @@
+html
+
+html은 구조를 표현하는 Markup language이다.
+
+기본적으로 html은 tag들의 집합이다,
+
+tag는 부등호(<>)로 묶인 html의 기본 구성 요소이다.
+
+ex) html문서시작
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div>
+            <span></span>
+        <div/>
+    </body>
+
+이러한 구조를 트리구조라고 한다.
+
+간혹, 닫는 태그가 없는 경우가 있다.
+
+이런 경우는 태그 내부에 내용이 없는 경우가 많다,
+
+ex) <tag> or <tag/>
+
+html에서 많이 쓰이는 tag들
+
+<div>
+
+div태그는 한 줄을 차지한다.
+
+<span>
+
+span 태그는 컨텐츠 크기만큼 공간을 차지한다.
+
+<img>
+
+이미지를 담을 수 있는 구역
+
+ex) <img src = 'img source url'>
+
+img tag는 닫는 tag가 없다.
+
+<a>
+
+링크를 삽입할 수 있는 tag
+
+ex) <a href = 'url' target='_blank'>link text</a>
+
+    target='_blank'를 속성으로 주면 새 창에서 열린다
+
+<ol>,<ul>,<li>
+
+ul은 unordered list이다.
+
+ol은 ordered list이다.
+
+li는 ul, ol 내부의 리스트 아이템이다.
+
+ex) <ul>                ...
+        <li></li>           *...
+        <li></li>           *...
+    </ul>               
+
+    <ol>                ...
+        <li></li>           1...
+        <li></li>           2...
+    </ol>               
+
+<input>,<textarea>
+
+입력 폼 들이다. 웹에서 입력을 받아 내부로 전달해 줄 수 있는 태그들
+
+<button>
+
+버튼이다.
