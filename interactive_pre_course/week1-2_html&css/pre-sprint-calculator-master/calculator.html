@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link rel="stylesheet" href="./yourStyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+      <div class="calculator">
+        <div class="calculator__display--bare">
+          <span class="calculator__operend--left">0</span>
+          <span class="calculator__operator">+</span>
+          <span class="calculator__operend--right">0</span>
+          <span class="calculator__equal">=</span>
+          <span class="calculator__result">0</span>
+        </div>
+        <div class="calculator__display--intermediate">0</div>
+        <div class="calculator__buttons">
+          <div class="clear__and__enter">
+            <button class="clear">AC</button>
+            <button class="calculate">Enter</button>
+          </div>
+          <div class="button__row">
+            <button class="number btn btn-outline-secondary">7</button>
+            <button class="number btn btn-outline-secondary">8</button>
+            <button class="number btn btn-outline-secondary">9</button>
+            <button class="operator btn btn-outline-secondary"">+</button>
+          </div>
+          <div class="button__row">
+            <button class="number btn btn-outline-secondary">4</button>
+            <button class="number btn btn-outline-secondary">5</button>
+            <button class="number btn btn-outline-secondary">6</button>
+            <button class="operator btn btn-outline-secondary"">-</button>
+          </div>
+          <div class="button__row">
+            <button class="number btn btn-outline-secondary">1</button>
+            <button class="number btn btn-outline-secondary">2</button>
+            <button class="number btn btn-outline-secondary">3</button>
+            <button class="operator btn btn-outline-secondary"">*</button>
+          </div>
+          <div class="button__row">
+            <button class="number double btn btn-outline-secondary">0</button>
+            <button class="decimal btn btn-outline-secondary">.</button>
+            <button class="operator btn btn-outline-secondary"">/</button>
+          </div>
+        </div>
+      </div>
+      <img class="logo" src="data/codestates-logo.png">
+    </div>
+    <script src='./script.js'></script>
+</body>
+</html>
