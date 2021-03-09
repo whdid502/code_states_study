@@ -1,0 +1,72 @@
+객체란?
+
+회원주소록을 만든다고 가정해보자.
+
+ex) let user1_first_name = 'steve'
+    let user1_last_name = 'lee'
+    let user1_email = 'ddd@naver.com'
+    let user1_city = 'seoul'
+
+    let user2_first_name = 'burce'
+    let user2_last_name = 'kim'
+    let user2_email = 'cccc@gmail.com'
+    let user2_city = 'ulsan'
+
+유저 한명에 변수가 4개가 필요하다.
+
+변수는 이름으로 구분할 수 있을 뿐, 서로 어떠한 관계가 없다.
+
+ex) let user1 = [
+    'steve',
+    'lee',
+    'ddd@naver.com'
+    'seoul'
+    ]
+
+    let user2 = [
+    'burce',
+    'kim',
+    'cccc@gmail.com',
+    'ulsan'
+    ]
+
+배열은 변수가 줄어들긴 하지만 각 index가 어떤 정보를 갖고있는지 미리 알아야 한다
+
+index로 접근시 가독성 하락
+
+ex) let_user = {
+    first_name = 'steve',
+    last_name = 'lee',
+    email = 'ddd@naver.com',
+    city = 'seoul'
+    }
+
+객체를 사용하면해결된다.
+
+객체는 키(ex.first_name)과 값(ex.'steve'), 그리고 그 사이를 구분하는 ':'으로 이루어져 있다.
+
+객체는 중괄호로 시작하고 키-값 페어는 ','로 구분한다.
+
+객체 접근 방법
+
+ex) user.first_name // 'steve'
+    user.city // 'seoul'
+
+','으로 접근하는 방법을 dot notation이라고 하며 객체의 속성을 가져오는 원리이다.
+
+ex) user['first_name'] // 'steve'
+    user['city'] // 'seoul'
+
+'[]'으로 접근히ㅏ는 방법을 bracket notation이라고 한다.
+
+단, bracket notation을 할땐 '[]'안에 string형태여야 한다.
+
+내부가 string이 아닌경우 선언되지 않는 변수를 찾는것으로 취급된다.
+
+key값이 변할때는 bracket notation을 써야만 한다.
+
+dot notation은 정해진 key값에서만 사용한다.
+
+이 notation으로 값을 추가,변경,삭제도 가능하다.
+
+in연산자로 해당 키가 있는지 불리언으로 반환해 확인할 수 있다.
