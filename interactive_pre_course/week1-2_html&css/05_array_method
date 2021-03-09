@@ -1,0 +1,55 @@
+배열인지 확인하기
+
+기존에 타입을 확인하는 방법은
+
+typeof 라고 사용함
+
+ex) typeof '문자열' // string
+    typeof 123 // number
+    typeof 문자열 // object
+    typeof ['문','자','열'] // object
+
+배열을 확인할땐 Array.isArray()를 사용함
+
+    Array.isArray('문자열') // false
+    Array.isArray(123) // false
+    Array.isArray(문자열) // false
+    Array.isArray(['문','자','열']) // true 
+
+배열요소 추가 및 삭제하기
+
+ex) let arr = ['code','states']
+
+배열을 확인할땐 console.log 보다 console.table을 활용하자
+
+ex) arr.push('pre')
+    arr // ['code','states','pre']
+    arr.pop() // 'pre'
+    arr // ['code','states']
+
+push는 뒤에 추가하고, pop은 뒤에서 뺀다
+
+ex) arr.shift() // 'code'
+    arr // ['states']
+    arr.unshift('creative')
+    arr // ['creative','states']
+
+unshift는 앞에 추가하고, shift는 앞에서 뺀다
+
+배열요소 포함여부 확인하기
+
+ex) let words = ['radagast','the','brown']
+
+    words.indexOf('the') // 1
+    words.indexOf('brown') // 2
+    words.indexOf('없는단어') // -1
+
+indexOf는 내부에 값이 있는지 체크를 해서 해당 엘리먼트의 인덱스를 반환한다.
+
+ex) words.includes('Brown') // true
+    words.includes('brown') // false
+
+includes는 내부의 값이 있는지 없는지를 boolean으로 반환한다.
+
+단, includes는 호환성이 좋지 않아 인터넷 익스플로러에서 작동하지 않는다.
+
