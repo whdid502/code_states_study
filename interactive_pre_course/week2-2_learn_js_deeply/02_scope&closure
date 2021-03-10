@@ -1,0 +1,105 @@
+스코프는 변수의 유효범위를 의미한다.
+
+js는 다른 언어와 조금 다른 특성을 종종 지니고있는데, 그 중 하나는 클로져이다.
+
+클로져는 함수와 함수가 선언된 어휘적 환경의 조합을 말한다, 이 환경은 클로저가 생성된 시점의 유효범위 내에 있는 모든 지역변수로 구성된다.
+
+ex) let greeting = 'hello'
+    function greetSomeone(){
+        let first_name = 'josh'
+        return greeting + ' ' + first_name
+    }
+
+    greetSomeone() ; // 'Hello josh'
+    first_name // reference error
+
+함수 내에서 선언된 변수는 local scope(선언된 함수 내)에서만 사용되고, 밖에선 참조할 수 없다.
+
+global scope에서 선언된건 local scope내에서도 사용가능하다.
+
+scope는 변수 접근 규칙에 따른 유효범위이다.
+
+변수는 어떠한 환경내에서만 사용가능하다.
+
+js는 함수가 선언되는 동시에 자신만의 scope를 가진다.
+
+하나의 함수를 하나의 local scope로 보면 된다.
+
+안쪽 scope(local scope)에서 선언된 함수를 바깥 scope(global scope)에서 접근하는 것은 불가능.
+
+바깥 scope에서 선언된 함수는 안쪽 scope에서 접근할 수 있다.
+
+scope는 중첩가능하다.(함수 안에 함수를 넣을 수 있다.
+
+global scope는 최 상단 scope로 여기서 선언된 변수는 전역변수 로써 어디서든 접근이 가능하다.
+
+지역변수는 함수 내에서 전역변수보다 더 높은 우선순위를 가진다.
+
+function scope vs block scope
+
+block은 {}로 시작하고 끝나는 단위를 block이라고 한다.
+
+ex) for(let i=0; i<5; i++) {
+        console.log(i); // 다섯번 iteration
+    }
+    console.log('final i:', i); // reference error
+
+위의 예시에서 i는 block scope안에서만 사용가능 하다.
+
+변수 선언시 오래된 방식인 var은 함수 단위로 자신만의 scope를 가진다.
+
+하지만 let은 block단위로 scope를 구분하므로 예측하기 훨씬 쉽다.
+
+ex) for(var i=0; i<5; i++) {
+        console.log(i); // 다섯번 iteration
+    }
+    console.log('final i:', i); // 5
+
+위의 예시에서 변수 선언을 var을 사용하면 var은 function scope안에서 자유롭게 사용할 수 있게 된다.
+
+위의 예시는 함수가 없으므로 전역에서 사용가능해진다.
+
+변수선언 const
+
+const는 값이 변하지 않는 변수, 즉 상수를 정의할때 사용하는 키워드이다.
+
+let과 동일하게 block scope를 따르지만, 재할당이 불가능하다.
+
+            let                const                   var
+유효범위    block               block                   function
+재할당      가능                불가능                   가능
+재선언      불가능              불가능                   가능
+
+전역변수와 window 객체
+
+전역범위를 대표하는 객체 window
+
+global scope에서 선언된 함수, var키워드를 통해 선언된 변수는 window와 연결된다.
+
+전역 범위에 너무 많은 변수 선언을 지양하자. 타 프로그램, 타 라이브러리와 호환성이 떨어질 수 있다.
+
+선언없이 초기화된 전역변수의 위험성
+
+절대로 선언키워드 없이 변수를 초기화 하지 말것
+
+선언키워드(let,var,const)없이 변수에 할당만 하게 될 경우 전역변수로 취급된다.(다 덮어씌워버린다는 뜻)
+
+이런 실수를 방지하고자 'strict mode'를 사용하자(js파일 가장 상단에 'use strict'를 작성한다.)
+
+strict mode는 의도치 않은 전역변수 선언시 에러를 발생시킨다.
+
+---
+
+클로저(closure)
+
+외부 함수의 변수에 접근할 수 있는 내부 함수, 혹은 이러한 작동 원리를 일컫는 용어
+
+커링 : 함수 하나가 n개의 인자를 받는 대신, n개의 함수를 만들어 각각의 인자를 받게 하는 방법
+
+이 경우는 특정 값을 고정해놓고 사용할 수 있다.
+
+외부 함수의 변수가 저장되어 마치 템플릿 함수와 같이 사용가능
+
+클로져 모듈 패턴 : 변수를 스코프 안쪽에 가두어 함수 밖으로 노출시키지 않는 방법
+
+ 
