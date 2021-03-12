@@ -155,18 +155,32 @@
 
 // console.log(returnSecondArg('a'))
 
-function getAllParamsByRestParameter(...args) {
-    return args;
-}
+// function getAllParamsByRestParameter(...args) {
+//     return args;
+// }
 
-function getAllParamsByArgumentsObj() {
-    return arguments;
-}
+// function getAllParamsByArgumentsObj() {
+//     return arguments;
+// }
 
-const restParams = getAllParamsByRestParameter('first', 'second', 'third');
-const argumentsObj = getAllParamsByArgumentsObj('first', 'second', 'third');
-const argsArr = Array.from(argumentsObj);
+// const restParams = getAllParamsByRestParameter('first', 'second', 'third');
+// const argumentsObj = getAllParamsByArgumentsObj('first', 'second', 'third');
+// const argsArr = Array.from(argumentsObj);
 
-console.log(argsArr)
-// console.log(typeof restParams)
-// console.log(typeof argumentsObj)
+// console.log(argsArr)
+// // console.log(typeof restParams)
+// // console.log(typeof argumentsObj)
+
+let right_signal = ['muhan', 'dojeon', '!']
+let wrong_signal = ['mu', 'ya', 'ho']
+// 1
+console.log(right_signal); // ['muhan','dojeon','!']
+console.log(wrong_signal); // ['mu','ya','ho']
+//2
+right_signal = wrong_signal
+console.log(right_signal); // ['mu','ya','ho']
+console.log(wrong_signal); // ['mu','ya','ho']
+//3
+right_signal.push('~~')
+console.log(right_signal); // ['mu','ya','ho','~~']
+console.log(wrong_signal); // ['mu','ya','ho','~~']
