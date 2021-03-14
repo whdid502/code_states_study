@@ -103,3 +103,53 @@ p:nth-last-of-type(n){ }
 
 type이 password가 아닌 모든 input태그
 input:not([type='password']){ }
+
+효율적인 css를 작성하기 위한 지침
+
+1.universal규칙을 피해라
+ 선택자가 universal규칙에 속하지 않는지 확인해라
+
+2. id규칙에 쓸모없는 태그나 클래스를 붙이지 말라
+ id선택자를 가지면 여기에 부차적인 태그를 붙이지 말자
+ 
+ ex) button#backButton {…} /* 나쁨 */ 
+    .menu-left#newMenuIcon {…} /* 나쁨 */ 
+    #backButton {…} /* 좋음*/ 
+    #newMenuIcon {…} /* 좋음 */
+
+
+3. class 규칙에 쓸모없는 태그를 붙이지 말라
+
+ ex) treecell.indented {…} /* 나쁨 */ 
+     .treecell-indented {…} /* 좋음 */ 
+     .hierarchy-deep {…} /* 최선 */
+
+4. 가장 명확한 규칙을 적용하라
+ 성능저하의 큰이유중 하나는 tag규칙에 속하는 규칙이 너무 많아서이다.
+
+ ex) treeitem[mailfolder="true"] > treerow > treecell {…} /* 나쁨 */ 
+     .treecell-mailfolder {…} /* 좋음 */
+
+5. 자손 선택자를 피하라
+ 자손 선택자는 css에서 가장 속도가 느린 선택자이다. 자식 선택자로 대체하자.
+
+ ex) treehead treerow treecell {…} /* 나쁨 */ 
+     treehead > treerow > treecell {…} /* 개선되었지만 여전히 나쁨 (다음 지침을 보라) */
+
+6.tag규칙은 자식 선택자를 포함하지 말라
+ 이것은 매칭하는데 소요되는 시간을 비약적으로 증강시킨다.
+
+ex) treehead > treerow > treecell {…} /* 나쁨 */ 
+    .treecell-header {…} /* 좋음 */
+
+7. 자식선택자 사용은 주의하라
+가능하면 피해라
+ 
+ ex) treeitem[IsImapServer="true"] > treerow > .tree-folderpane-icon {…} /* 나쁨 */
+     .tree-folderpane-icon[IsImapServer="true"] {…} /* 좋음 */
+
+8. 상속을 이용하라
+ 어떤 상속들이 상속되는지 배우고 사용하라
+
+ ex) #bookmarkMenuItem > .menu-left { list-style-image: url(blah) } /* 나쁨 */ 
+     #bookmarkMenuItem { list-style-image: url(blah) }/* 좋음 */
