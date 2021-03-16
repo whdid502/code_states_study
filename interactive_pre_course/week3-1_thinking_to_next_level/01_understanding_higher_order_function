@@ -1,0 +1,60 @@
+js에는 일급 객체(first-class citizen)이 있다.
+
+이는 특별한 대우를 받는것들인데 이중 하나가 함수이다. 함수는 아래와 같이 특별하게 취급된다.
+
+1. 변수에 할당할 수 있다.
+2. 다른 함수의 인자로 전달될 수 있다.
+3. 다른 함수의 결과로서 리턴될 수 있다.
+
+이는 함수를 데이터다루듯 다룰 수 있다는걸 의미한다.
+
+함수를 변수에 저장하는 방식으로 선언하는걸 함수 표현식이라고 한다.
+
+ex) 함수 선언식(function declaration)
+    function square(num){
+        return num = num;
+    }
+
+    함수 표현식(function expression)
+    const square = function (num){
+        return num =  num;
+    }
+
+함수 선언식과 함수 표현식의 차이는 호이스팅의 여부 뿐이다. 선언식은 호이스팅이 되지만 표현식은 호이스팅이 되지 않는다.
+
+다만 변수로 저장된 데이터는 함수의 인자로 전달되거나 함수내에서 리턴값으로 사용될 수 있다.
+
+고차함수란 함수를 인자로 받거나 함수를 리턴하는 함수를 말한다.
+
+이때 인자가 되거나 리턴되는 함수를 콜백 함수(callback function)이라고 하고 주체되는 함수는 콜러(caller)라고 부른다.
+
+함수를 리턴하는 함수 만을 일컫는 용어는 커리 함수이다.
+
+ex) 다른 함수를 인자로 받는 경우
+    function double(num){
+        return num*2
+    }
+
+    function doubleNum(func,num){
+        return func(num)
+    }
+
+    함수를 리턴하는 경우
+    function adder(added){
+        return function (num){
+            return num + added
+        }
+    }
+
+    두가지 전부의 경우
+
+    function double(num){
+        return num*2
+    }
+
+    function doubleAdder(added,func){
+        const doubled = func(added)
+        return function(num){
+            return num + added
+        }
+    }
