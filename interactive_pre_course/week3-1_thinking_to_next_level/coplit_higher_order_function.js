@@ -451,3 +451,22 @@
 //     return only_numb.reduce((pre, cur) => pre + cur)
 //   }
 // }
+arr = [
+    [1,2],
+    ['aa','bb'],
+    [true,false]
+
+]
+function joinArrayOfArrays(arr) {
+
+    const joinedArr = arr.reduce(function (acc, cur) {
+ 
+     return acc.concat(cur);
+ 
+   });
+ 
+   return joinedArr;
+ 
+ }
+ 
+ console.log(joinArrayOfArrays(arr))
