@@ -1,0 +1,39 @@
+엘리멘트를 만들때는 createElement를 사용한다
+
+ex) docment.createElement('div')
+
+위 방법으로 만들어낸 div는 어디에도 붙어있지 못하고 붕 떠있는 태그가 된다.
+
+해당 태그를 body에 넣어주려면 append를 사용한다.
+
+ex) const tweetDiv = document.createElement('div')
+    document.body.append(tweetDiv)
+
+DOM에서 tag,id,class로 html을 조회하려면 셀렉터를 사용해야한다.
+
+ex) const oneTweet = document.querySelector('.tweet')
+    const allTweet = document.querySelectorAll('.tweet')
+
+만들어낸 div를 U하는 방법을 알아보자.
+
+ex) const oneDiv = docment.createElement('div)
+    oneDiv.textContent = 'dev' // text추가
+    oneDiv.classList.add('tweet') // tweet이라는 클래스 추가
+    
+div를 삭제하는 방법을 알아보자.
+
+ex) const container = document.querySelector('#container')
+    const tweetDiv = document.querySelector('div')
+    container.append(tweetDiv)
+    tweetDiv.remove()
+
+자식엘리멘트를 모두 지우는 방법은 다음과 같다,
+
+ex) document.querySelector('#container').innerHTML = ''
+
+하지만 innerHTML은 보안상의 문제를 가지고 있다.
+
+ex) const container = document.querySelector('#container')
+    while(container.fistchild){
+        container.removeChild(container.firstChild)
+    }
