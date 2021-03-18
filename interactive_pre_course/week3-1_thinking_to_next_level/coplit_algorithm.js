@@ -435,31 +435,138 @@
 // // console.log(numberSearch("Sou2bgPJkS7Lp5r2j6jeWOts8X"))
 // console.log(numberSearch('8ad'))
 
-function decryptCaesarCipher(str, secret) {
-  // TODO: 여기에 코드를 작성합니다.
-  if (str.length === 0) {
-    return ''
-  } else {
-    let alph = 'abcedfghijklmnopqrstuvwxyz'
-    let lStr = str.toLowerCase()
-    let result = ''
-    for (let i = 0; i < str.length; i++) {
-      for (let n = 0; n < alph.length; n++) {
-        if (lStr[i] === alph[n]) {
-          if (n < secret) {
-            let index = alph.length - Math.abs(n - secret) + 1
-            result += alph[index]
-          }
-          if (n >= secret) {
-            result += alph[n - secret]
-            
-          }
-          console.log(lStr[i], alph[n], secret, result)
-        }
-      }
-    }
-    console.log(result)
-  }
-}
+// function decryptCaesarCipher(str, secret) {
+//   // TODO: 여기에 코드를 작성합니다.
+//   // for문 > str을 하나하나 끊어서 빈 배열에 push
+//   // 아스키코드로 숫자화해서 다른 빈배열에 push
+//   // 숫자화 할때 secret이 26을 넘을땐 나머지만 사용하고, 아니면 secret을 그대로 사용
+//   // 숫자에서 secret을 빼주고 26을 더하고
 
-decryptCaesarCipher('nzop delepd dfaazced jzf', 11)
+//   // 아스키 코드 범주 밖으로 나갈경우 26을 더해준다.
+//   let strArr = []
+//   let ASCArr = []
+//   let transASCArr = []
+//   secret = secret % 26
+//   for (let i = 0; i < str.length; i++) {
+//     strArr.push(str[i].toLowerCase())
+//   }
+//   for (let i = 0; i < strArr.length; i++) {
+//     ASCArr.push(strArr[i].charCodeAt(0))
+//   }
+//   for (let i = 0; i < ASCArr.length; i++) {
+//     let transCode
+//     if (ASCArr[i] !== 32) {
+//       transCode = ASCArr[i] - secret
+//     }else{
+//       transCode = ASCArr[i]
+//     }
+//     transASCArr.push(transCode)
+//   }
+//   for (let i = 0 ; i < transASCArr.length ; i++){
+//     if(transASCArr[i] < 97 && transASCArr[i] !== 32){
+//       transASCArr[i] += 26
+//     }
+//     transASCArr[i] = String.fromCharCode(transASCArr[i])
+//   }
+//   return transASCArr.join('')
+// }
+
+// decryptCaesarCipher('nzop delepd dfaazced jzf', 11)
+
+  // function compressString(str) {
+  //   // TODO: 여기에 코드를 작성합니다.
+  //   function makeAccCountArr(string) {
+  //     let count = 0
+  //     let accCount = 0
+  //     let accCountArr = []
+  //     for (let i = 0; i < string.length; i++) {
+  //       if (string[i] === string[i + 1]) {
+  //         count = 1
+  //         accCount += count
+  //       } else {
+  //         count = 0
+  //         accCount = 0
+  //       }
+  //       accCountArr.push(accCount)
+  //     }
+  //     return accCountArr
+  //   }
+  //   if (str.length === 0) {
+  //     return ''
+  //   } else {
+  //     accCountArr = makeAccCountArr(str)
+  //     let convertStr = []
+  //     for (let i = 0; i < accCountArr.length; i++) {
+  //       if (accCountArr[i] >= 2 && accCountArr[i + 1] !== accCountArr[i] + 1) {
+  //         let foreWord = str.substr(0, i - accCountArr[i] + 1)
+  //         let doubleWord = str[i + 1]
+  //         let backWord = str.substr(i + 2, str.length)
+  //         convertStr.push(foreWord + (accCountArr[i] + 1) + doubleWord)
+  //         str = backWord
+  //         accCountArr = makeAccCountArr(backWord)
+  //         console.log(str)
+  //         console.log(accCountArr)
+  //       }
+  //     } 
+  //     // console.log(str)
+  //     console.log(convertStr)
+  //     return str
+  //   }
+  // }
+
+
+// compressString('dsafdasfffffsgaaaaabbbscccdd')
+
+// // 'w w w g g o p p o p p p p'
+// //  1 1 0 1 0 0 1 0 0 1 1 1    카운트 +해야될곳
+// //    2   1     1         3    누적 카운트
+// //  1 2 0 1 0 0 1 0 0 1 2 3    현재 카운트
+
+// 'dsafdasfffffsgaaaaabbbscccdd' 일때
+// accCountArr는
+// '000000012340001234012001200' 이고
+// f를 판별해 줄어들면
+
+// 'dsafdas' + 5(중복된숫자) + f(중복된문자) + 'sgaaaaabbbscccdd'변하고
+
+// '0000000' +                                + '001234012001200'
+
+// function compressString(str) {
+//   let result = '';
+//   let n = str[0];
+//   if(str===''){
+//     return '';
+//   }
+//   for (let i = 1; i < str.length; i++) {
+//     if (str[i-1] === str[i]) {
+//       n = n + str[i];
+//       // console.log(result,i)
+//       // console.log(n,i)
+//     }else{ //이번 글자가 저번 글자랑 다른 경우 a s d
+//       if(n.length>=3){
+//         result = result + n.length + n[0];
+//         n = str[i]
+//       }else if(n.length===2){
+//         result = result + n[0]+n[1];
+//         n = str[i];
+//         // console.log(result)
+//       }else { //if(n.length===1)
+//         result = result + n[0];
+//         // console.log(result,n)
+//         n = str[i];
+//       }
+//       // n = str[i]
+//     }
+//   }
+//   if(n.length>=3){
+//     result = result + n.length + n[0];
+//     console.log(result)
+//   }
+//   else {
+//     result = result + n;
+//     console.log(result)
+//   }
+//   // console.log(n.length)
+//   // console.log(result)
+//   return result;
+// }
