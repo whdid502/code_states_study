@@ -1,0 +1,57 @@
+어떤 정보(resource)를 제공하는 주체를 서버(server)라고 한다.
+
+자원을 요청하는 사람혹 프로그램은 클라이언트(client)라고 한다. 클라이언트는 웹 브라우저가 될수 있다.
+
+ex)               ----요청---->
+      client                        server
+                  <----응답----
+
+서버는 클라이언트에게 리소스를 잘 활용할 수 잇도록 인터페이스를 제공해줘야 하는데 이것을 API라고 한다.
+
+쉽게 말하자면 스타벅스의 메뉴판과 같은 것이다.
+
+마찬가지로 서버가 리소스를 전달하기 위해서는 API를 구축해놓아야 클라이언트가 이를 활용할 수 있다.
+
+보통 인터넷에 있는 데이터를 요청할 시에는 HTTP라는 프로토콜을 사용하며, 주소(URL, URI)등을 통해 접근가능하다.
+
+ex) 현재 서울 날씨 조회 http://기상청.org/weather?city=seoul
+    현재 뉴욕 날씨 조회 http://기상청.org/weather?city=newyork
+    이번주 일별 서울 날씨 예보 http://기상청.org/forecast/daily?city=seoul
+
+오픈 API(open API)란 공공데이터로서 접근가능한 API를 뜻한다.
+
+누구에게나 열려있지만 무제한으로 이용할수 있는건 아니고, 이용수칙에 따른 제한이 존재한다.
+
+API key는 API를 이용하기 위해서 필요한 열쇠같은 것이다.
+
+간혹 필요하지 않은 경우도 있지만, 대부분의 경우 비용을 들어 자원을 제공해주는 서버입장에서 아무런 조건없이 익명의 클라이언트에게 정보를 제공해 줄 필요가 없다.
+
+HTTP요청 => fetch API
+ex) fetch('http://서버주소//weather?q=Seoul')
+    .then(function(resp){
+      // 응답형식에 따라 resp.text()가 될수도 있다.
+      return resp.json()
+    })
+    .then(function(json){
+      console.;log(json) // {temparture : 27}
+    })
+
+  API사용시 주의점
+  - API는 공짜가 아니며, 서비스제공자로부터 권한을 받아야 한다.
+  - 그러므로 API Key는 암호처럼 취급되어야 한다.
+
+  HTTP요청을 GET이 아닌 POST를 이용하면 서버에 기록도 가능하다.
+  내용과 함께 전달하며, 게시판에 새로운 글을 쓰거나, 아이디와 비밀번호로 로그인을 할때를 예로 들수 있다.
+
+  ex) let new_post = {
+      ...
+      }
+
+      fetch('http://서버주소/posts', {
+        method:'post',
+        body : JSON.stringfy(new_post)
+      }).then(function(resp){
+        return rest.json()
+      }).then(function(json){
+        console.log(json) // {id : }
+      })
