@@ -20,7 +20,7 @@
 //     }
 //     return result
 //   }
-  
+
 // makeMultiplesOfDigit2(0,9)
 
 // function getMaxNumberFromString(str) {
@@ -35,7 +35,7 @@
 //     // console.log(numbs_arr)
 //     return String(Math.max.apply(null, numbs_arr))
 //   }
-  
+
 // // console.log(getMaxNumberFromString('  '))
 
 // function replaceAll(str, from, to){
@@ -69,7 +69,7 @@
 //     console.log(result)
 //     return result
 //   }
-  
+
 // characterAndNumber('fanta')
 
 // function computePower(base, exponent) {
@@ -95,7 +95,7 @@
 //   }
 
 // console.log(getSumOfFactors(8))
-  
+
 // function isPrime(num) {
 //     // TODO: 여기에 코드를 작성합니다.
 //     let count = 0
@@ -133,7 +133,7 @@
 //   }
 
 // console.log(listPrimes(18))
-  
+
 // function makePermutations(str) {
 //     if(str.length === 0){
 //         return ''
@@ -160,7 +160,7 @@
 //     if(str.length === 0){
 //         return false
 //     }
-    
+
 //     for (i = 0 ; i < str.length ; i ++){
 //         let count = 0
 //         for (let letter of str){
@@ -174,20 +174,34 @@
 //     }
 //     return false
 // }
-  
+
 // console.log(hasRepeatedCharacter('abcede'))
 
-function makeMarginalString(str) {
-    // TODO: 여기에 코드를 작성합니다.
-    let result = ''
-    for (i = 0 ; i <=  str.length ; i ++){
-        let add_word = ''
-        for(n = 0 ; n < i ; n ++){
-            add_word = add_word + str[n]
+// function makeMarginalString(str) {
+//     // TODO: 여기에 코드를 작성합니다.
+//     let result = ''
+//     for (i = 0 ; i <=  str.length ; i ++){
+//         let add_word = ''
+//         for(n = 0 ; n < i ; n ++){
+//             add_word = add_word + str[n]
+//         }
+//         result = result + add_word
+//     }
+//     return result
+//   }
+
+//   console.log(makeMarginalString('flower'))
+
+function findTheBug(str) {
+    let count = 0
+    for (let key of str){
+        // console.log(key)
+        if (key === '#'){
+            return count
         }
-        result = result + add_word
+        count ++
     }
-    return result
-  }
-  
-  console.log(makeMarginalString('flower'))
+}
+
+let output = findTheBug('wo#rd');
+console.log(output); // --> 2
