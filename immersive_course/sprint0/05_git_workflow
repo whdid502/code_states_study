@@ -1,0 +1,43 @@
+git 을 이용할때 가장 필요한 환경설정은 크게 두가지로 사용자 정보와 에디터 설정이다,
+
+사용자 정보는 사용자 이름과 이메일 주소를 설정하는 것이다.
+
+$ git config --global user.name "Kim Coding"
+$ git config --global user.email kimcoding@codestates.com
+
+--global로 설정하는 것은 단 한번만 해줘도 되는 설정이다.
+
+git에서 커밋메시지를 기록시 에디터가 등장한다. 기본적으론 vi지만 익숙치 않다면 nano로 변경하는 것이 좋다.
+
+gir branch
+
+원본에 영향을 주지않는 사본복사
+
+새로운 기능을 개발할때 원본에 영향을 주지 않으면서 작업 가능
+
+브랜치는 현재작업공간을 베이스로 만들어진다.
+ > 내가 작업하고 있는 곳을 확인할것(어떤 브랜치인지)
+
+git checkout <브랜치이름>
+ > 해당 브랜치 이름으로 이동합니다.
+
+git checkout -b <브랜치이름>
+ > -b는 브랜치 생성 + 해당 브랜치로 작업공간 이동 하는 명령어
+
+원본을 베이스로 하는 다른 브랜치를 만드려면
+ > 베이스로 하고싶은 브랜치로 작업공간을 옮긴다(원본)
+ > 브랜치 생성
+
+일반적으로 프로젝트 진행시 다음과 같은 workflow를 지닌다.
+
+먼저 프로젝트의 master repo를 fork해온다.(fork)
+
+복사해온 repo를 local로 가져온다.(git clone)
+
+master repo와 local을 연결해준다.(git pull)
+
+연결해준 dev에서 새 브랜치를 만들고 코드및 기능을 작성한다.
+
+새로 만든 기능을 my repo에 push한다. 단 주의할점은 master에 push가아니라 새로 만든 브랜치에 push한다.
+
+이후 해당 브랜치를 master repo로 pr한다.
