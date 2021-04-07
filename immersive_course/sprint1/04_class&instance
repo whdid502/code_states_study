@@ -1,0 +1,72 @@
+메소드 호출은 객체.메소드() 와 같이 개개체 내의 메소드를 호출하는 방법을 의미한다.
+
+단순객체를 사용한 이러한 에제를 흔히 볼 수 있다. 단 메소드호출방식을 이용할때에는 화살표함수를 사용하지 않는다.
+
+ex) let counter1 = {
+      value : 0,
+      increase : function(){
+        this.value++
+      },
+      decrease : function(){
+        this.value--
+      },
+      getValue : function(){
+        return this.value
+      }
+    }
+
+    counter1.increase() // 1
+    counter1.increase() // 2
+    counter1.increase() // 3
+    counter1.decrease() // 2
+    counter1.getValue() // 2
+
+singleton 패턴은 하나의 객체만 만들 수 있다. 글머 똑같은 기능을 하는 카운터를 여러개 만드려면 클로저 모듈패턴을 이용하면 된다.
+
+ex) function makeCounter(){
+      return{
+        value : 0,
+        increase : function(){
+          this.value++
+        },
+        decrease : function(){
+          this.value--
+        },
+        getValue : function(){
+          return this.value
+        }
+      }
+    }
+
+    let counter1 = makeCounter()
+    counter1.increase()
+    counter1.getValue() // 1
+
+    let counter2 = makeCounter()
+    counter2.decrease()
+    counter2.decrease()
+    counter2.getValue() // -2
+
+
+객체지향 프로그래밍이란 하나의 모델이 되는 청사진을 만들고 그 청사진을 바탕으로 객체를 만드는 프로그래밍 패턴
+
+여기서 청사진은 class를 의미하고 청사진을 바탕으로한 객체를 instance라고 한다.
+
+this은 인스턴스 객체를 의미한다.
+
+parameter로 넘어온 것은 인스턴스 생성시 지정하는 값이며 this에 할당하는 것은ㅇ 만들어진 인스턴스에 부여하겠다는 의미이다.
+
+this : 함수가 실행될때, 해당 scope마다 생성되는 고유한 실행 context
+       new 키워드로 인스턴스를 생성했을때에는 해당 인스턴스가 바로 this의 값이 됨.
+
+this는 함수 실행시 결정되는, 실행되는 맥락마다 다르게 결정된다.
+
+method 호출시(ex. obj.foo()):부모객체(실행시 온점 왼쪽, obj), 하나의 겍체에 값과 연관된 메소드를 묶어서 사용할때 주로 사용
+
+new 키워드를 시용한 생성자 호출(ex. new foo()):새롭게 생성된 인스턴스 객체, 객체지향 프로그래밍에서 사용
+
+.call또는 .apply호출(ex.foo.call() or foo.apply()):첫번째 인자로 전달된 객체, this값을 특정할때 사용하며, 특히 apply의 경우 배열의 엘리먼트를 풀어서 인자로 넘기고자 할때 유용함
+
+function 호출시에는 this를 사용할 이유가 벙ㅅ다.
+
+화살표함수는 this값에 전혀 영양을 끼치지 않는다. 사용하지 말자.
