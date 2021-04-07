@@ -50,17 +50,29 @@
 // console.log(b)
 // console.log(rest)
 
-function whois({displayName: displayName, fullName: {firstName: name}}){
-  console.log(displayName + " is " + name);
+// function whois({displayName: displayName, fullName: {firstName: name}}){
+//   console.log(displayName + " is " + name);
+// }
+
+// let user = {
+//   id: 42,
+//   displayName: "jdoe",
+//   fullName: {
+//       firstName: "John",
+//       lastName: "Doe"
+//   }
+// };
+
+// whois(user) 
+
+// const array = ['code', 'states', 'im', 'course']
+// const [first, ...second, last] = array
+
+// console.log(first, second)
+const student = { name: '최초보', major: '물리학과', lesson: '양자역학', grade: 'B+' }
+
+function getSummary({ name, lesson: course, grade }) {
+  return `${name}님은 ${grade}의 성적으로 ${course}을 수강했습니다`
 }
 
-let user = {
-  id: 42,
-  displayName: "jdoe",
-  fullName: {
-      firstName: "John",
-      lastName: "Doe"
-  }
-};
-
-whois(user) 
+console.log(getSummary(student))

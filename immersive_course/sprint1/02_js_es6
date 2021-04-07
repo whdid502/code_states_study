@@ -126,3 +126,33 @@ ex) function my_fun(a,b,...manyMoreArgs){
     //a one
     //b two
     //manyMoreArgs [ 'three', 'four', 'five', 'six' ]
+
+
+분해 후 새변수에 할당
+
+ex) [a,b,...rest] = [10,20,30,40,50]
+
+    console.log(a) // 10
+    console.log(b) // 20
+    console.log(rest) // [30,40,50]
+
+    {a,b, ...rest} = {a:10 , b:20, c:30, d:40}
+
+    /// not used
+
+
+함수에서 객체분해
+ex) function whois({displayName: displayName, fullName: {firstName: name}}){
+      console.log(displayName + " is " + name);
+    }
+
+    let user = {
+      id: 42,
+      displayName: "jdoe",
+      fullName: {
+          firstName: "John",
+          lastName: "Doe"
+      }
+    };
+
+    whois(user) 
