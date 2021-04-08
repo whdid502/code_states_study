@@ -1,0 +1,37 @@
+함수는 단순히 소괄호를 열고 닫는 방법 외에도 메소드를 이용해 실행할 수 있다.
+
+ex) function foo(){
+      return 'bar'
+    }
+
+    foo()
+    foo.call()
+    coo.apply()
+
+.call 과 .apply는 명시적으로 this값을 지정하고 싶을때 사용한다. 첫번째 인자가 항상 this값이 된다.
+
+ex) Math.max.apply(null,[5,4,3,2,1]) // 5
+
+    Math.max(...[5,4,3,2,1]) // 5
+
+    ''.split.call('피,땀.눈물',',')
+
+    '피,땀,눈물'.split(',')//위와 정확히 같은 결과
+
+    let allDivs = document.querySelectorAll('div'); // NodeList라는 유사 배열입니다.
+    // allDivs를 this로 지정합니다.
+    [].map.call(allDivs, function(el) {
+      return el.className
+    })
+
+    // allDivs는 유사 배열이므로 map 메소드가 존재하지 않습니다. 
+    // 그러나, Array prototype으로부터 map 메소드를 빌려와 this를 넘겨 map을 실행할 수 있습니다.
+
+.bind는 .call과 유사하게 this및 인자를 바인딩하나, 당장 실행되는 것이 아닌 바인딩된 함수를 리턴하는 함수이다.
+
+첫번째 인자는 this, 두번째 인자부터는 필요한 파라미터를 전달한다.
+
+fn.bind(this값, 인자1, 인자2, ...)
+
+bind는 call, apply에 비해 비교적 유용한 예가 존재한다.
+

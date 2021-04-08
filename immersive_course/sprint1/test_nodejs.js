@@ -69,10 +69,15 @@
 // const [first, ...second, last] = array
 
 // console.log(first, second)
-const student = { name: '최초보', major: '물리학과', lesson: '양자역학', grade: 'B+' }
+// const student = { name: '최초보', major: '물리학과', lesson: '양자역학', grade: 'B+' }
 
-function getSummary({ name, lesson: course, grade }) {
-  return `${name}님은 ${grade}의 성적으로 ${course}을 수강했습니다`
+// function getSummary({ name, lesson: course, grade }) {
+//   return `${name}님은 ${grade}의 성적으로 ${course}을 수강했습니다`
+// }
+
+// console.log(getSummary(student))
+function foo() {
+  return this;
 }
 
-console.log(getSummary(student))
+foo.apply()
