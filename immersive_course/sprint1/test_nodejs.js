@@ -76,8 +76,14 @@
 // }
 
 // console.log(getSummary(student))
-function foo() {
-  return this;
+https://us05web.zoom.us/j/83635850120?pwd=aFB5R1pjZnhIc0xMMk15M3lLVDdrQT09
+
+function foo(a, b) {
+  return this + (a ? a : '') + (b ? b : '')
 }
 
-foo.apply()
+const context = 'almost finish'
+
+const boundFoo = foo.bind(context)
+
+console.log(typeof boundFoo)
