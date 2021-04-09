@@ -1,0 +1,13 @@
+prototype chain
+
+모든 function에는 prototype이라는 속성이 있다.
+
+prototype : 모델의 청사진을 만들때 쓰는 원형 객체
+
+constructor : 인스턴스가 초기화될때 실행하는 생성자 함수
+
+this : 함수가 실행될때 해당 scope마다 생성되는 고유한 실행 context
+       new키워드로 인스턴스를 생성했을때에는 해당 인스턴스가 바로 this의 값이 됨
+
+인스턴스를 생성하는 과정 > instantation
+
