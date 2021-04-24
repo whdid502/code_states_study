@@ -342,3 +342,56 @@
 //   const people = ['epitone', 'junggyun', 'sangsu', 'soonhee', 'hansik']; findPerson = (array => { for (let i = 0; i < array.length; i++) { if (array[i] === 'hansik') { console.log("Found hansik"); } } }); findPerson(people);
 
 //   const people = ['epitone', 'junggyun', 'sangsu', 'soonhee', 'hansik']; findPerson = (array => { for (let i = 0; i < array.length; i++) { for (let k = 0; k < array.length; k++){ console.log(array[i], array[k]); } } }); findPerson(people);
+
+
+// function BakeCake(flavor, icing){
+//   /*
+//    1. Heat Oven to 350 F
+//    2. Mix flour, baking powder, salt
+//    3. Beat butter and sugar until fluffy
+//    4. Add eggs.
+//    5. Mix in flour, baking powder, salt
+//    6. Add milk and " + flavor + "
+//    7. Mix further
+//    8. Put in pan
+//    9. Bake for 30 minutes
+//   10." + if(icing === true) return 'add icing' + "
+//   10. Stuff your face
+//   */
+//   }
+//   BakeCake('vanilla', true) => deliciousness
+
+//   // 아래와 같은 데이터 구조 기준으로 시간복잡도를 적용해봅니다.
+// var friends = {
+//   'Mark' : true,
+//   'Amy' : true,
+//   'Carl' : false,
+//   'Ray' :  true,
+//   'Laura' : false,
+//   }
+//   var sortedAges = [22, 24, 27, 29, 31]
+
+//   //If I know the persons name, I only have to take one step to check:
+// function isFriend(name){ //similar to knowing the index in an Array
+//   return friends[name];
+//   };
+//   isFriend('Mark') // returns True and only took one step
+//   function add(num1,num2){ // I have two numbers, takes one step to return the value
+//   return num1 + num2
+//   }
+
+//   //You decrease the amount of work you have to do with each step
+// function thisOld(num, array){
+//   var midPoint = Math.floor( array.length /2 );
+//   if( array[midPoint] === num) return true;
+//   if( array[midPoint]  only look at second half of the array
+//   if( array[midpoint] > num ) --> only look at first half of the array
+//   //recursively repeat until you arrive at your solution
+   
+//   }
+//   thisOld(29, sortedAges) // returns true
+//   //Notes
+//   //There are a bunch of other checks that should go into this example for it to be truly functional, but not necessary for this explanation.
+//   //This solution works because our Array is sorted
+//   //Recursive solutions are often logarithmic
+//   //We'll get into recursion in another post!
