@@ -395,3 +395,59 @@
 //   //This solution works because our Array is sorted
 //   //Recursive solutions are often logarithmic
 //   //We'll get into recursion in another post!
+
+// function solution(a, b) {
+//   return ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][new Date(2016, a - 1, b).getDay()];
+// }
+
+// function solution(s) {
+//   return s.substr(Math.ceil(s.length / 2) - 1, s.length % 2 === 0 ? 2 : 1);
+// }
+
+// function solution(arr) {
+//   return arr.filter((v, i) => v !== arr[i + 1]);
+// }
+
+// function solution(arr, divisor) {
+//   const answer = arr.filter(el => el % divisor === 0);
+//   return answer.length ? answer.sort((p, c) => p - c) : [-1];
+// }
+
+// function solution(a, b) {
+//   a > b && ([a, b] = [b, a]);
+//   return Array(b - a + 1).fill().map((v, i) => v + i).reduce((a, c) => a + c);
+// }
+
+// function solution(a, b) {
+//   return (a + b) * ((a > b ? a - b : b - a) + 1) / 2;
+// }
+
+// function solution(strings, n) {
+//   return strings.sort((p, c) => p[n] === c[n] ? p.localeCompare(c) : p[n].localeCompare(c[n]))
+// }
+
+// function solution(s) {
+//   const p = s.split('').filter(v => ['p', 'P'].includes(v));
+//   const y = s.split('').filter(v => ['y', 'Y'].includes(v));
+//   return p.length === y.length;
+// }
+
+// function solution(s) {
+//   return s.match(/p/gi).length === s.match(/y/gi).length;
+// }
+
+// function solution(s){
+//   return s.replace(/p/gi, '').length == s.replace(/y/gi, '').length;
+// }
+
+// function solution(s) {
+//   return s.split('').sort((prev, cur) => cur.charCodeAt() - prev.charCodeAt()).join('');
+// }
+
+// function solution(s) {
+//   return /^[0-9]+$/.test(s) && [4,6].includes(s.length);
+// }
+
+// function solution(seoul) {
+//   return '김서방은 ' + seoul.indexOf('Kim') + '에 있다';
+// }
