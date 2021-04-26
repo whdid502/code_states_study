@@ -1,0 +1,89 @@
+비동기(Asynchronous)
+
+클라이언트는 서버로 접속하는 컴퓨터, 우리들의 컴퓨터이고
+
+서버는 무언가를 제공하는 컴퓨터를 의미한다
+
+동기는 클라이언트가 서버에게 요청을하고 서버는 요청작업을 수행한다.
+
+그 요청작업을 수행중 클라리언트는 요청작업을 받을때까지 대기한다.(block)
+
+비동기는 요청까진 같다. 하지만 서버가 요청작업을 수행중에도 클라리언트는 다른 작업을 진행한다.
+
+그러다가 response가 오면 해당 반응으로 작업을 한다.
+
+콜백(callback)
+
+비동기진행중 순서를 제어하고 싶을때
+
+ex) const printString = (string) => {
+      setTimeout(
+        () => {
+          console.log(string)
+        },
+        Matgh.floor(Math.random()*100)+1
+      )
+    }
+
+    const printAll = () => {
+      printString('a')
+      printString('b')
+      printString('c')
+    }
+
+    printAll()
+
+    위의 함수에서 a,b,c는 랜덤으로 지정된 수만큼 지연되기 때문에 어느 수가 먼저 나오는지 알수 없다.
+
+    이를 순차적으로 제어학 위해 콜백이라는 개념이 필요하다.
+
+    콜백은 비동기를 핸들링할수 있다.
+
+ex) const printString = (string, callback) => {
+      setTimeout(
+        () => {
+          console.log(string)
+          callback()
+        },
+        Matgh.floor(Math.random()*100)+1
+      )
+    }
+
+    const printAll = () => {
+      printString('a', () => {
+        printString('b' , () => {
+           printString('c')
+        })
+      })
+    }
+
+promise
+
+콜백헬을 벗어나기 위한 하나의 테크닉
+
+ex) const printString = (string) => {
+        return new promise((resolve, reject) => {
+          setTimeout(
+            () => {
+              console.log(string)
+              resolve()
+            },
+            Math.floor(Math.random() * 100) + 1
+          )
+        })
+    }
+
+    const printAll = () => {
+      printString('a')
+      .then(() => {
+        return printString('b')
+      })
+      .then(() => {
+        return printString('c')
+      })
+    }
+
+    printAll()
+
+promise에서 에러를 마지막에 캐치가능하다.
+
