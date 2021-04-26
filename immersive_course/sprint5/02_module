@@ -1,0 +1,12 @@
+모듈 : 파일을 읽거나 저장하는 등의 일을 할수 있게 돕는 node.js의 한 부분이다.
+
+브라우저에선 script를 통해서 js파일을 불러왔다.
+
+js에선 require를 사용하면 된다.
+
+ex) const fs = require('fs')
+    cons dns = require('dns')
+
+3rd-party는 프로그래밍세계에서 공식적으로 제공하는 것이 아닌 다른 모든 제 3자를 의미한다.
+
+node.js문서에 존재하지 않는 것은 전부 3rd-party이다.
