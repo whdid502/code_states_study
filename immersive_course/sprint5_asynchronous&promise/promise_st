@@ -1,0 +1,157 @@
+promise란?
+promise는 JavaScript 의 비동기 데이터 처리에 사용되는 객체이다.
+
+📌 여기서 자바스크립트의 비동기처리란,
+'특정 코드의 실행이 완료될 때까지, 기다리지 않고 다음 코드를 먼저 수행하는 자바스크립트의 특성'을 의미한다.
+
+promise의 사용
+promise 객체를 사용하면 비동기 작업(성공 혹은 실패) 완료된 후의 결과 값을 받을 수 있다. 그래서 이후 처리를 쉽게 컨트롤이 가능하다.
+
+promise는 함수를 인자로 받으며 인자로 들어온 함수는 다시 resolve(비동기처리 성공)와 reject(비동기처리 실패) 2개의 함수를 인자로 받게 된다. resolve시 then 메소드, reject시 catch 메소드의 인자로 넘어간다.
+
+function getData(callback) {
+ return new Promise(function(resolve, reject) {
+  $.get('url', function(response) {
+   if (response) {
+    resolve(response) // 성공
+   }
+   reject(new Error("Request is fail")) // 실패
+  })
+ })
+}
+// resolve 시 then 메소드, reject 시 catch 메소드의 인자로 넘어간다.
+getData().then(function (data) { 
+ console.log(data)
+}).catch(function (err) {
+ console.log(err)
+});
+// new Promise로 생성된 인스턴스는 객체이기 때문에 변수로 할당하거나 함수의 인자로 사용 가능
+cosnt promise = new Promise((res, rej) => {
+  setTimeout(() => {
+    res(111);
+  }, 1000);
+});
+이 때, then 메소드는 다시 promise를 반환하여 연속적으로 then 사용이 가능하다.
+
+
+
+promise의 3가지 상태 (states)
+promise를 사용할 때 알아야 하는 가장 기본적인 개념이 바로 프로미스의 상태(state)이다. 여기서 말하는 상태란 프로미스의 처리 과정을 의미한다. new Promise()로 프로미스를 생성하고 종료될 때까지 3가지 상태를 갖는다.
+
+pending (대기)
+먼저 아래와 같이 new Promise() 메소드를 호출하면 대기(pending) 상태가 된다.
+
+new Promise();
+new Promise(); 메소드를 호출할 때 콜백 함수를 선언할 수 있고, 콜백 함수의 인자는 resolve, reject이다.
+
+new Promise(function(resolve, reject) {
+  //...
+});
+Fullfilled (이행)
+여기서 콜백 함수의 인자 resolve를 아래와 같이 실행하면 이행(Fullfilled) 상태가 된다.
+
+new Promise(function(resolve, reject) {
+ resolve();
+});
+그리고 이행상태가 되면 아래와 같이 then()을 이용하여 처리 결과 값을 받을 수 있다.
+
+function getData() {
+  return new Promise(function(resolve, reject) {
+    var data = 100;
+    resolve(data);
+  });
+}
+
+// resolve()의 결과 값 data를 resolvedData로 받음
+getData().then(function(resolvedData) {
+  console.log(resolvedData); // 100
+});
+🙆 promise의 이행을 좀 다르게 표현한다면 '성공'으로 볼 수 있다.
+
+Rejected (실패)
+new Promise()로 프로미스 객체를 생성하면 콜백 함수 인자로 resolve와 reject를 사용할 수 있다고 앞서 언급했따. 여기서 reject를 아래와 같이 호출하면 실패 (Rejected) 상태가 된다.
+
+new Promise(function(resolve, reject) {
+  reject();
+});
+그리고, 실패 상태가 되면 실패한 이유(실패처리의 결과 값)을 catch로 받을 수 있다.
+
+function getData() {
+  return new Promise(function(resolve, reject) {
+    reject(new Error("Request is failed"));
+  });
+}
+
+// reject()의 결과 값 Error를 err에 받음
+getData().then().catch(function(err) {
+  console.log(err); // Error: Request is failed
+});
+
+
+
+promise의 처리흐름
+
+
+
+
+
+여러개의 promise 연결하기 (promise Chaining)
+프로미스의 또 다른 특징은 여러개의 프로미스를 연결하여 사용할 수 있다는 점이다. 앞 예제에서 then() 메소드를 호출하고 나면 새로운 프로미스 객체가 반환된다. 따라서, 아래와 같이 코딩이 가능하다.
+
+function getData() {
+ return new Promise({
+   // ...
+ });
+}
+
+// then() 으로 여러 개의 프로미스를 연결한 형식
+getData()
+ .then(function(data) {
+   // ...
+ })
+ .then(function() {
+   // ...
+ })
+ .then(function() {
+   // ...
+ });
+
+
+
+promise의 에러 처리 방법
+실제 서비스를 구현하다 보면 네트워크 연결, 서버 문제 등으로 인해 오류가 발생할 수 있다. 따라서 프로미스의 에러 처리 방법에 대해서도 알아아 두는 것이 좋다.
+
+에러 처리 방법에는 다음과 같이 2가지 방법 있다.
+
+1. then()의 두번 째 인자로 에러를 처리하는 방법
+getData().then(
+ handleSuccess,
+ handleError
+);
+2. catch()를 이용하는 방법
+getData().then().catch();
+위 두 가지 방법 모두 promise의 reject() 메소드가 호출되어 실패 상태가 된 경우에 실행된다.
+간단하게 말해서! 프로미스의 로직이 정상적으로 돌아가지 않는 경우 호출 되는 것이다. 아래가 다음과 같은 경우이다.
+
+function getData() {
+ return new Promise(function(resolve, reject) {
+   reject('failed');
+ });
+}
+
+// 1. then()의 두 번째 인자로 에러를 처리하는 코드
+getData().then(function() {
+ // ...
+}, function(err) {
+ console.log(err);
+});
+
+// 2. catch()로 에러를 처리하는 코드
+getData().then().catch(function(err) {
+ console.log(err);
+});
+📌 promise 처리는 가급적 catch()를 사용하자!
+앞에서 프로미스 에러 처리 방법 2가지를 살펴보았다. 각자 스타일에 따라서 Then()을 두번째 인자로 처리할 수도 있고 catch()로 처리할 수도 있겠지만, 가급적 catch()로 처리하는 것이 더 효율적이다.
+then()을 이용할 경우 첫번째 콜백함수 내부에서 생기는 오류를 제대로 잡아내지 못할수도 있기 때문이다.
+따라서 더 많은 예외 처리 상황을 위해 프로미스의 끝에 가급적 catch()를 붙이자
+
