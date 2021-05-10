@@ -1,0 +1,62 @@
+처음에 리액트를 배울 때 리액트는 waterfall방식이기 때문에, state의 부모 컴포넌트에서 자식 컴포넌트로 단방향일 것이라고만 생각했다. 그런데 코드를 짜다보니 자식 컴포넌트의 state값을 부모 컴포넌트에게 전달해줘야 되는 상황이 발생하기 시작했다. 리액트에서는 그런 상황을 어떻게 해결해야 하나 싶었는데, 리액트 공식문서에 State 끌어올리기라는 주제가 이미 있었다.
+
+처음에 state 끌어올리기 개념을 접했을 때는 정말 이해가 되지 않았지만, 정말 많이 쓰이는 개념이기 때문에 필수적으로 학습해야 하는 개념이다.
+
+DOM엘리먼트에 접근하기 위해 최상위 컴포넌트에서 ref변수를 선언한다.
+constructor() {
+  super();
+  this.shoeDetailRef = React.createRef();
+  this.reviewRef = React.createRef();
+}
+스크롤을 움직이는 scrollTo라는 함수를 만든다.
+scrollTo = (ref) => {
+    window.scrollTo({ top: ref.current.offsetTop - 50, behavior: "smooth" });
+  };
+ref변수를 스크롤을 움직여야하는 태그가 있는 컴포넌트까지 내려주고, ref변수와 scrollTo함수를 onClick이벤트를 걸어줄 컴포넌트까지 내려준다.
+render() {
+  const {shoeDetailRef, reviewRef, scrollTo} = this;
+  return (
+    <ProductDetailLeft refArr={[shoeDetailRef, reviewRef]}
+    <ProductDetailRight
+                  scrollTo={scrollTo}
+                  refArr={[shoeDetailRef, reviewRef]}/>
+)}
+ProductDetailLeft.js
+
+render() {
+  const [shoeDetailRef, reveiwRef] = this.props.refArr;
+  return ( 
+    <DetailShoeImage shoeDetailRef={shoeDetailRef} />
+    <ShoeReview reviewRef={reviewRef} />
+)}
+ProductDetailRight.js
+
+render() {
+  const { scrollTo, refArr } = this.props;
+    return (
+      <div className="ProductDetailRight">
+        <ShoeInfo scrollTo={scrollTo} refArr={refArr} />  
+스크롤이 멈춰야 하는 컴포넌트의 해당 태그에 ref속성 값으로 미리 선언한 변수를 넣는다.
+DetailShoeImage.js
+
+render() {
+  const {shoeDetailRef} = this.props;
+  return (
+    <div className="DetailShoeImage" ref={shoeDetailRef}>
+ShoeReview.js
+
+render() {
+  const {reviewRef} = this.props;
+  return (
+    <div className="ShoeReview" ref={reviewRef}>
+내려 받은 scrollTo함수를 onClick이벤트에 걸어주고, 그 인자로 내려 받은ref변수를 넣어준다.
+ShoeInfo.js
+render(){
+  const {scrollTo} = this.props;
+  const [shoeDetailRef, reviewRef] = this.props.refArr;
+  return (
+    <span onClick={() => scrollTo(shoeDetailRef)} />
+    <div onClick={() => scrollTo(reviewRef)} />
+)}
+onClick이벤트를 걸어준 부분을 클릭하면 scrollTo함수가 실행되고, scrollTo함수는 최상위 컴포넌트로부터 ref변수를 내려받아서 인자로 가지고 있기 때문에 ref변수를 속성값으로 가지고 있는 곳으로 이동한다.
+이렇게 처음으로 state 끌어올리기개념을 적용해서, 스크롤 이벤트와 연관시켜 보았다.
