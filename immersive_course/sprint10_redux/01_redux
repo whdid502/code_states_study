@@ -1,0 +1,23 @@
+redux는 컴포넌트와 상태를 분리하는 방법을 알게 된다.
+
+이로써 컴포넌트는 기능에만 집중가능한 함수형 컴포넌트를 이용할 수 있다
+
+redux는 js에서 상태를 관리해 주는 앱이다.
+
+redux의 세가지원칙
+1. single source of truth 데이터를 저장하는 하나뿐인 공간store가 있다는 말이다
+2. state is read-only : redux에는 action이란 객체로만 변경가능하다.
+3. changes are made with pure functions 
+
+store는 상태가 관리되는 오직 하나의 공간이다.
+
+action은 js앱이다. type을 꼭 지정해주어야 한다.
+
+reducersms 현재상태와 action을 통해 새로운 state를 생성해 낸다.
+
+redux의 장점
+1. 상태를 예측 가능하게 만들어 준다
+2. 유지보수
+3. 디버깅에 유리하다(action과 state log 기록시)
+4. 테스트를 붙이기 쉽다
+
