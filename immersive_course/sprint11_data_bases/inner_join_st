@@ -1,0 +1,84 @@
+조인(Join)이란 2개 이상 테이블을 서로 엮어 조회하는 것이다.
+
+​
+
+Inner Join은 서로 매칭되는 것만 엮어 조회한다.
+
+​
+
+Outer Join은 매칭 뿐만 아니라 미매칭 데이터도 함께 조회한다.
+
+Outer Join에는 Left Outer Join, Right Outer Join, Full Outer Join이 있다.
+
+Left, Right는 미매칭 데이터도 조회할 테이블 방향이다.
+
+따라서 Left Outer Join은 왼쪽에 기입한 테이블이 매칭여부와 관계없이 모두 나오게 된다.
+
+​
+
+사례를 통해 익혀보자.
+
+​
+
+A와 B라는 2개의 코드성 테이블이 있고 
+
+각 테이블의 코드를 비교하면서 어떻게 작동하는지 알아보자.
+
+​
+
+우선 실습할 2개 테이블 생성하고 데이터를 넣는다.
+
+CREATE TABLE A(
+	CODE INT NOT NULL,
+	CODE_NAME NCHAR(100) NOT NULL
+	CONSTRAINT PK_A PRIMARY KEY(CODE)
+);
+
+CREATE TABLE B(
+	CODE INT NOT NULL,
+	CODE_NAME NCHAR(100) NOT NULL
+	CONSTRAINT PK_B PRIMARY KEY(CODE)
+);
+
+INSERT INTO A(CODE, CODE_NAME) VALUES(1, 'ALPHA')
+INSERT INTO A(CODE, CODE_NAME) VALUES(2, 'BETA')
+
+INSERT INTO B(CODE, CODE_NAME) VALUES(2, 'BETA')
+INSERT INTO B(CODE, CODE_NAME) VALUES(3, 'GAMMA')
+1) 테이블 A에만 존재하는 코드를 조회한다.
+
+
+SELECT *
+FROM A LEFT OUTER JOIN B ON A.CODE = B.CODE
+WHERE B.CODE IS NULL
+
+​
+
+​
+
+2) 테이블 A와 테이블 B 모두에 존재하는 코드를 조회한다.
+
+
+SELECT *
+FROM A INNER JOIN B ON A.CODE = B.CODE
+
+​
+
+​
+
+3) 테이블 A의 모든 코드는 매칭여부와 관계없이 모두 조회한다.
+
+
+SELECT *
+FROM A LEFT OUTER JOIN B ON A.CODE = B.CODE
+
+​
+
+​
+
+4) A테이블과 B테이블 매칭이 안되는 나머지를 모두 조회한다.
+
+
+SELECT *
+FROM A FULL OUTER JOIN B ON A.CODE = B.CODE
+WHERE A.CODE IS NULL OR B.CODE IS NULL
