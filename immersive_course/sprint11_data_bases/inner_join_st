@@ -82,3 +82,148 @@ FROM A LEFT OUTER JOIN B ON A.CODE = B.CODE
 SELECT *
 FROM A FULL OUTER JOIN B ON A.CODE = B.CODE
 WHERE A.CODE IS NULL OR B.CODE IS NULL
+
+join(조인)
+둘 이상의 테이블을 연결해서 데이터를 검색하는 방법
+
+연결하려면 테이블들이 적어도 하나의 컬럼을 공유하고 있어야함
+
+이 공유하고 있는 컬럼을 PK 또는 FK값으로 사용
+
+​
+
+종류
+
+1. INNER JOIN : 내부조인 ->교집합
+
+2. LEFT/RIGHT JOIN -> 부분집합
+
+3. OUTER JOIN : 외부조인 ->합집합
+
+오라클은 OUTER JOIN있지만, MYSQL은 없어서 LEFT조인 + RIGHT조인
+
+​
+
+​
+
+예를 들어 두가지 테이블(T1,T2)이 있다고 하면, 이걸로 join결과를 그림으로 그려보면서 복습해보자 
+
+A
+
+ID	ENAME
+1	AAA
+2	BBB
+3	CCC
+B
+
+ID	KNAME
+1	가
+2	나
+4	라
+5	마
+ 
+
+1. INNER JOIN : 교집합, 공통적인 부분만 SEELCT됨
+
+​
+
+ID	ENAME	KNAME
+1	AAA	가
+2	BBB	나
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A INNER JOIN B
+ON A.ID = B.ID;
+​
+
+2. LEFT JOIN : 조인기준 왼쪽에 있는거 '다' SELECT 됨 
+(공통적인 부분 + LEFT에 있는거만 )
+
+ID	ENAME	KNAME
+1	AAA	가
+2	BBB	나
+3	CCC	NULL
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A LEFT OUTER JOIN B
+ON A.ID = B.ID;
+​
+
+2-1. 조인기준 왼쪽에 있는거'만' SELECT됨 (LEFT에 있는거만 : A-B)
+LEFT가 가지고 있는 것 중 공통적인 부분을 제외한 값
+
+그냥 LEFT JOIN값 중에서 WHERE조건으로 NULL인 값을 조회
+
+B가 NULL의 값을 가지고 있는건 A만 가지고 있는 값이니까 
+
+
+ID	ENAME	KNAME
+3	CCC	NULL
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A LEFT OUTER JOIN B
+ON A.ID = B.ID;
+WHERE B.ID IS NULL
+쉽게생각하는방법 : A에남아있는거만 하고 싶다? 
+
+일단 A를 왼쪽에 두고 LEFT JOIN을 하고, 겹치는 쪽을 뺴기 위해서 반대쪽 KEY NULL
+
+ 
+
+3.RIGHT JOIN : 조인기준 오른쪽에 있는거 '다' SELECT됨
+(공통적인 부분 + RIGHT에 있는거만)
+
+ID	ENAME	KNAME
+1	AAA	가
+2	BBB	나
+4	NULL	라
+5	NULL	마
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A RIGHT OUTER JOIN B
+ON A.ID = B.ID;
+3-1.조인기준 오른쪽에 있는거만! SELECT됨
+(RIGHT에 있는거만 : B-A)
+RIGHT가 가지고 있는 것 중 공통적인 부분을 제외한 값
+
+그냥 RIGHT JOIN값 중에서 WHERE조건으로 NULL인 값을 조회
+
+
+ID	ENAME	KNAME
+4	NULL	라
+5	NULL	마
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A RIGHT OUTER JOIN B
+ON A.ID = B.ID
+WHERE A.ID IS NULL
+쉽게생각하는방법 : B에남아있는거만 하고 싶다? 
+
+일단 B를 오른쪽에 두고 RIGHT JOIN을 하고, 겹치는 쪽을 뺴기 위해서 반대쪽 KEY NULL
+
+4. OUTER JON
+A테이블이 가지고 있는거, B테이블이 가지고 있는거 둘다 SELECT
+
+ 
+
+
+ID	ENAME	KNAME
+1	AAA	가
+2	BBB	나
+3	CCC	NULL
+4	NULL	라
+5	NULL	마
+​
+
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A FULL OUTER JOIN B
+ON A.ID = B.ID
+​
+
+4-1. 오른쪽에 있는거만! + 왼쪽에 있는거만 SELECT
+FULL OUTER가 가지고 있는 것 중 공통적인 부분을 제외한 값
+
+
+ID	ENAME	KNAME
+3	CCC	NULL
+4	NULL	라
+5	NULL	마
+SELECT A.ID, A.ENAME, A.KNAME
+FROM A FULL OUTER JOIN B
+ON A.ID = B.ID
+WHERE A.ID IS NULL OR B.ID IS NULL
