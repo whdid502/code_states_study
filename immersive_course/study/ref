@@ -1,0 +1,131 @@
+React는 컴포넌트 트리 선언과 props 사용을 통해서, DOM 노드에 레퍼런스를 걸지 않고도 UI 제어가 대부분 가능합니다. 하지만 개발 중에는 특정 노드에 레퍼런스를 걸고 접근해야할 경우도 가끔씩 있습니다.
+React Ref는 특정한 DOM 노드, 혹은 컴포넌트 인스턴스에 reference를 걸어주는 것입니다. Ref를 통해서 render 메서드에서 만든 DOM 노드나 React 요소에 접근해서, 값을 얻거나 수정할 수 있습니다.
+이 글의 내용은 React v.16.7로 프로젝트를 하는 동안 제가 ref 를 사용하기위해 알아야만 했던 내용들을 모은 것입니다. 여기 나오는 소스들은 ref 를 사용한것을 재구성했습니다.
+
+Ref 만들기
+class Domain extends Component {  sideBarResizeHandleRef = React.createRef();  render() {    return (      <SideBarResize className="side-bar" ref={this.sideBarResizeHandleRef} >        {/* ... */}      </SideBarResize>    );  }}
+클래스에 ref 를 할당할 변수를 만들어두고 createRef() 로 초기화합니다. render 에서 요소에 참조를 설정합니다 ( ref={this.sideBarResizeHandleRef} ).
+
+Ref에 접근하기
+요소에 ref 를 전달했으니 이제 변수를 통해 접근할 수 있습니다. 참조한 요소의 값을 얻거나, 수정하는 것이 가능하며, 메소드를 사용할 수도 있습니다.
+componentDidMount() {  this.sideBarResizeHandleRef.current.onResize();}
+ref 가 참조하는 인스턴스의 onResize 메소드를 사용했습니다. 우리가 설정한 요소는 ref 의 current 속성에 담기게 됩니다.
+
+Ref의 값
+노드의 타입에 따라 ref 의 값이 다릅니다.
+React의 ref 문서 에 따르면 다음 두개의 케이스가 있습니다:
+HTML 요소에 ref 어트리뷰트를 전달하면, DOM 노드가 current 속성값이 됩니다.
+리액트 요소인 커스텀 클래스 컴포넌트에 ref 어트리뷰트를 쓰면, 마운트된 컴포넌트의 인스턴스가 current 속성값이 됩니다.
+또한 함수 컴포넌트는 인스턴스가 없기 때문에 ref 를 줄 수 없습니다. 함수 컴포넌트에 ref 를 전달하면 그 ref 에 접근할 수 없으며, development 모드에서 다음과 같은 메시지가 콘솔에 표출됩니다. index.js:1446 Warning: Function components cannot be given refs. Attempts to access this ref will fail.
+
+
+Ref를 언제 쓸까?
+React 문서 에 따르면, ref 를 쓰는 경우는:
+DOM 노드에 접근해서 포커스, 미디어 재생 등을 제어하거나, 사이즈를 얻어올 때
+애니메이션을 직접 실행시킬 때
+서드 파티 라이브러리를 사용할 때
+추가적으로 다음과 같은 경우에도 쓸 수 있습니다.
+자식의 state에 부모가 접근할 때
+State로 제어하지 않는 비제어 컴포넌트 를 사용할 때
+
+
+class FilterBar extends Component {  inputRef = createRef;  handleClear = () => {    this.inputRef.current.value = ''; // clear the input    const someState = {};    this.setState(      someState,      () => {        this.inputRef.current.focus(); // focus the input      }    );  };  render() {    return (      <>        <input ref={this.inputRef} type="text" />        {/* ... */}      </>    );  }}
+<input /> 에 ref 를 생성하고, handleClear 핸들러가 input 에 포커스를 줍니다 . 그리고 current 는 <input /> 요소이므로, inputRef.current.value 로 값에 접근할 수 있습니다.
+
+
+class Layout extends Component {  contentsScrollbar = createRef();  componentDidUpdate() {    const { current } = this.contentsScrollbar;    if (current) {      current.update(); // update    }  }  render() {    return (      <div className="wrap">        <Header />        <div className="container">          <Scrollbars ref={this.contentsScrollbar}>            {this.props.children}          </Scrollbars>        </div>      </div>    );  }}
+헤더와 컨텐츠로 구성되는 Layout 이 서드 파티 라이브러리 Scorollbars 의 내부에 컨텐츠를 담고서, ref 를 전달하고, Scrollbars 모듈이 제공하는 API update() 를 사용합니다.
+
+
+class ServerRegister extends Component {  this.content = createRef();  handleConfirm = () => {    const { selects: ids } = this.content.current.state;    // post the data  };  render() {    return (      <>        <Dialog>          <Content ref={this.content} serverId={this.props.serverId} />        </Dialog>        {this.state.closeRedirect}      </>    );  }}
+일반적으로는 부모가 자식의 상태(state)에 접근할 빈도는 낮습니다. 자식의 변화를 콜백 함수를 사용해서 부모가 기록하고(가지고), 자식에게는 변화하는 상태를 내려주면 되니까 요.
+위는 그렇게 하지 않은 경우입니다. 자식 요소 Content 의 state 를 handleConfirm 핸들러가 ref 로 역참조해서 데이터를 post합니다.
+
+여기에 해당하는 경우로는, 부모의 렌더 트리가 대규모라서 렌더 비용이 높고, 자식 컴포넌트는 number input tag인 경우가 있었습니다. 인풋에 onChange 로 setState 를 걸어놓았을 경우, 숫자 타입 인풋은 화살표키를 꾹 누르면 연속적으로 상태 변화를 일으키기 때문에, 이 상태변화에 따라 부모를 다시 렌더링하면 렉이 유발되었습니다. 그래서 인풋을 가진 자식 컴포넌트에 ref 를 주고, 필요할 때에만 자식의 상태에 접근하도록 바꿨습니다.
+
+또한 이럴 때에 사용할 수 있는 대안적인 방법이 있는데, 다음의 예시를 보겠습니다.
+class NameForm extends React.Component {  input = React.createRef();  handleSubmit = event => {    alert('A name was submitted: ' + this.input.current.value);    event.preventDefault();  }  render() {    return (      <form onSubmit={this.handleSubmit}>        <label>          Name: <input type="text" ref={this.input} />        </label>        <input type="submit" value="Submit" />      </form>    );  }}
+위 코드는 상태를 제어하지 않는 비제어 컴포넌트 ( uncontrolled component )입니다. DOM 노드에 ref 를 주고서 폼 값을 가져오며, 상태 업데이트에 대한 이벤트 핸들러를 작성하지 않고 DOM이 폼 데이터를 다루도록 합니다.
+상태를 관리하는데 있어서 사용자의 입력값을 상태로 관리하고 폼의 값을 제어하는 방법이 일반적입니다. 비제어 컴포넌트는 대안적인 방법이며 간편하게 적은 코드로 작성할 수 있는게 장정입니다. 일반적인 상황에서는 state로 제어해야 합니다. 하지만 React 메인 컨트리뷰터 Dan Abramov도 때에 따라서 는 이 방법을 선호한다고 하니 적절하게 쓰면 되겠습니다.
+저는 종종 사용합니다. 따로 일일히 state를 컨트롤하지 않아도 되니 좋습니다.
+
+
+class FileInput extends React.Component {  this.fileInputRef = createRef();  handleSubmit = e => {    e.preventDefault();    alert(      `Selected file - ${        this.fileInputRef.current.files[0].name      }`    );  }  render() {    return (      <form onSubmit={this.handleSubmit}>        <label>          Upload file: <input type="file" ref={this.fileInputRef} />        </label>        <br />        <button type="submit">Submit</button>      </form>    );  }}ReactDOM.render(  <FileInput />,  document.getElementById('root'));
+React에서 <input type="file" /> 은 항상 비제어 컴포넌트입니다. 파일과 상호작용하려면 File API를 사용해야 합니다. ref 를 전달하고서 핸들러에서 파일에 접근합니다.
+
+기법: ref 전달하기
+직접적인 부모-자식간이 아닌, ref 를 자식에게 전달해 자식의 요소를 부모가 참조하는 테크닉입니다.
+const FancyButton = React.forwardRef((props, ref) => (  <button ref={ref} className="FancyButton">    {props.children}  </button>));// You can now get a ref directly to the DOM button:const ref = React.createRef();<FancyButton ref={ref}>Click me!</FancyButton>;
+React.forwardRef API 를 사용했고, FancyButton 은 React.forwardRef 로 감싸져서 정의되었습니다. FancyButton 에 ref 를 주면, 안쪽에 있는 버튼이 참조를 받게 됩니다. 여기에서 FancyButton 을 React.forwardRef 로 감싸지 않는다면, FancyButton 자체에 참조가 걸립니다.
+
+그럴만한 이유가 없긴 하지만 forwardRef 를 직접 구현하고 싶다면, 고차 컴포넌트로 쉽게 만들 수 있습니다. 만든 컴포넌트는 ref 속성을 다른 이름으로 받으며, 안쪽으로 전달해주면 그만입니다. 하지만 ref 라는 이름 그대로 사용할 수 있다는 forwardRef 의 장점을 잃어버리기 됩니다. 사용 중 헷갈릴 수도 있습니다.
+
+앞에서 봤듯이 고차 컴포넌트를 사용할 때 바깥 컴포넌트에 ref 를 준다고 안쪽으로 전달되지 않습니다. 비슷하게 React-Redux를 써서 스토어에 연결된 컴포넌트에서도 ref 사용시 다른 무언가가 필요합니다.
+export default connect(  null,  null,  null,  { forwardRef: true })(App);
+그 답은 connect 의 options 인자에 { forwardRef: true } 를 전달 하는 것입니다. connect 된 컴포넌트에 ref 를 전달하면 실제 컴포넌트 인스턴스에 ref 가 추가됩니다.
+
+자식 컴포넌트의 DOM 노드에 접근하는 것은 컴포넌트의 캡슐화를 파괴하기 떄문에 권장되지 않습니다. 그렇지만 가끔가다 자식 컴포넌트의 DOM 노드를 포커스하는 일이나, 크기 또는 위치를 계산하는 일 등을 할 때에는 효과적인 방법이 될 수 있습니다.
+
+
+다른 종류의 ref
+이 글에서는 createRef 가 코드 예문에 쓰였습니다. 이것 말고도 ref 를 설정하는 방법엔 총 2가지가 있습니다.
+React.createRef() API
+콜백 ref
+문자열 ref
+하지만 문자열 ref는 사용하지 않아야합니다. 위 두개만 써야 합니다.
+1. React.createRef() API
+이 글에서 쓴 그 API입니다. 다음으로 볼 콜백 ref에 비해서, createRef 는 따로 콜백을 만들지 않아 코드가 간단해지는 장점이 있습니다.
+
+2. 콜백 ref
+이 글에서 사용한 방법입니다. ref 를 설정하고 해제하는 상황을 세세하게 다룰 수 있습니다.
+콜백 ref를 사용할 때에는 ref 어트리뷰트에 React.createRef() 를 통해 생성된 ref 를 전달하는 대신, 함수를 전달합니다. 전달된 함수는 다른 곳에 저장되고 접근될 수 있는 React 요소나 DOM 노드를 인자로서 받습니다.
+
+
+먼저 흔한 유즈케이스입니다 .
+
+class CustomTextInput extends React.Component {  constructor(props) {    super(props);    this.textInput = null;    this.setTextInputRef = element => {      this.textInput = element;    };    this.focusTextInput = () => {      // DOM API를 사용하여 text 타입의 input 엘리먼트를 포커스합니다.      if (this.textInput) this.textInput.focus();    };  }  componentDidMount() {    // 마운트 되었을 때 자동으로 text 타입의 input 엘리먼트를 포커스합니다.    this.focusTextInput();  }  render() {    // text 타입의 input 엘리먼트의 참조를 인스턴스의 프로퍼티    // (예를 들어`this.textInput`)에 저장하기 위해 `ref` 콜백을 사용합니다.    return (      <div>        <input          type="text"          ref={this.setTextInputRef}        />        <input          type="button"          value="Focus the text input"          onClick={this.focusTextInput}        />      </div>    );  }}
+컴포넌트의 인스턴스가 마운트 될 때 React는 ref 콜백을 DOM 엘리먼트와 함께 호출합니다. 그리고 컴포넌트의 인스턴스의 마운트가 해제될 때, ref 콜백을 null 과 함께 호출합니다. ref 콜백들은 componentDidMount 또는 componentDidUpdate 가 호출되기 전에 호출됩니다.
+
+
+
+ref => {
+  this.contents[key] = ref;
+}
+각각의 content 는 key 를 가지고 있고 content 마다 ref 를 설정하려고 합니다. content 가 dictionary 또는 array 형식으로 온다면 반복문을 사용해서 처리하겠죠. createRef() 로는 처리하기 어렵습니다. 콜백 ref를 써서 각 content 별로 ref 를 설정하고 key 를 통해 설정한 ref 에 접근할 수 있도록 했습니다.
+
+
+3. 문자열 ref
+React는 문자열 ref가 레거시 API이며, 사용을 지양하고 콜백이나 createRef API로 바꿔서 쓰라고 권장 합니다.
+
+
+콜백 ref 컨벤션
+콜백 ref를 쓸 때 주로 다음과 같은 컨벤션으로 사용했습니다.
+
+class Monitoring extends Component {
+
+  sideBarResizeHandleRef = null;
+
+  // ...
+}
+멤버 변수로 ref 변수를 선언해줍니다. Class field declarations 을 사용한다면 constructor 의 바깥에 정의할 수 있습니다.
+
+
+
+setFileInputRef = element => {
+  this.fileInputRef = element;
+};
+
+// ...or
+
+refFileInput = ref => {
+  this.fileInputRef = ref;
+}
+콜백을 클래스 함수로 정의했습니다.
+
+<input type="file" ref={ref => (this.fileInputRef = ref)} />
+콜백을 render() 안에서 인라인 함수로 선언하는것 또한 가능합니다.
+
+콜백 ref에 대한 주의사항 : 인라인 함수로 콜백을 선언했다면 ref 콜백은 업데이트 과정에서 한번은 null 로, 그 다음에는 DOM 엘리먼트로, 총 두 번 호출됩니다. 이러한 현상은 매 렌더링마다 ref 콜백의 새 인스턴스가 생성되므로 React가 이전에 사용된 ref 를 제거하고 새 ref 를 설정해야 하기 때문에 일어납니다. 이러한 현상은 ref 콜백을 클래스에 바인딩된 메서드로 선언함으로써 해결할 수 있습니다. 하지만 많은 경우 이러한 현상은 문제가 되지 않는다는 점을 기억하세요.
+
+
+ref 콜백을 클래스 함수(메서드)로 정의하며 사용하는 경우 클래스 코드가 장황해지는 문제가 있었습니다. ref 를 하나 선언할 때마다 변수 초기화, ref 콜백이 추가되어야 합니다. 이런 이유로 createRef 을 더 선호합니다.
