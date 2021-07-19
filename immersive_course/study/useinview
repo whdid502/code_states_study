@@ -1,0 +1,24 @@
+네트워크 탭을 보니 화면에 보여지지 않는 이미지까지 한 번에 요청하는 것을 확인했다.
+100개가 넘는 이미지를 한 번에 받아오는 것이 불필요하게 느껴졌고, 보완 방법을 찾다 intersection observer라는 키워드를 알게 되었다.
+
+아래 코드는 브라우저의 viewport에 div 요소가 보여질 때 img tag의 src attribute의 값을 할당하는 식으로 구현한 것이다.
+네트워크 탭을 확인해보니 원하는 방식으로 동작하는 것을 확인했다.
+추가 보완할 부분으로 이미지를 불러오기 전 보여줄 스켈레톤 레이아웃을 추가하면 좋겠다.
+
+
+import { useInView } from "react-intersection-observer";
+
+const Component = () => {
+  const [ref, inView] = useInView({
+    // 라이브러리 옵션
+    threshold: 0,
+    triggerOnce: true,
+  });
+
+  return (
+    // div가 viewport에 보여질 때 inView 값이 true를 갖는다
+    <div ref={ref}>
+    	<img src={inView ? imageURL : ''} alt='image' />
+    </div>
+    );
+}
